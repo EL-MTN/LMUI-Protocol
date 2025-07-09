@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 // --- TYPE DEFINITIONS ---
+type Theme = 'default' | 'corporate';
+
 type Message = {
 	sender: 'user' | 'llm';
 	content: string | React.ReactNode;
@@ -39,6 +41,7 @@ type LLMResponse = {
 export default function Home() {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [inputValue, setInputValue] = useState('');
+	const [theme, setTheme] = useState<Theme>('default');
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	const scrollToBottom = () => {
@@ -48,6 +51,11 @@ export default function Home() {
 	useEffect(() => {
 		scrollToBottom();
 	}, [messages]);
+
+	useEffect(() => {
+		document.body.className = '';
+		document.body.classList.add(`theme-${theme}`);
+	}, [theme]);
 
 	useEffect(() => {
 		// Initial message from the LLM
@@ -339,6 +347,14 @@ export default function Home() {
 
 	return (
 		<main>
+			<div className="theme-switcher">
+				<button onClick={() => setTheme('default')} className={theme === 'default' ? 'active' : ''}>
+					Default
+				</button>
+				<button onClick={() => setTheme('corporate')} className={theme === 'corporate' ? 'active' : ''}>
+					Corporate
+				</button>
+			</div>
 			<div id="page-container">
 				<div id="chat-container">
 					<div id="chat-messages">

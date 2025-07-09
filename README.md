@@ -1,6 +1,6 @@
 # The Language Model User Interface (LMUI) Protocol
 
-> *This document contains the specification for the **Language Model User Interface (LMUI) Protocol**, a standardized method for enabling rich, interactive user interfaces within conversational AI experiences.*
+> _This document contains the specification for the **Language Model User Interface (LMUI) Protocol**, a standardized method for enabling rich, interactive user interfaces within conversational AI experiences._
 
 ## The Problem
 
@@ -9,6 +9,8 @@ Modern Language Models (LLMs) are incredibly powerful, but their primary mode of
 -   **Ambiguity:** Free-form text input can be ambiguous, requiring multiple conversational turns to clarify user intent.
 -   **Inefficiency:** For tasks like filling out forms or making a selection from a list, typing is far less efficient than using graphical UI elements.
 -   **Limited Experience:** The user experience is confined to that of a command-line interface, which is not ideal for many applications.
+
+There are many existing component libraries that allow for rich, interactive user interfaces, but they are not standardized and are not easily integrated into existing chat interfaces.
 
 ## The Solution
 
@@ -48,7 +50,7 @@ sequenceDiagram
 
 ### 2. Architecture: Separation of Concerns
 
-The LMUI protocol is designed to be flexible. The server is responsible for the **what** (*data* and the *type* of UI component), but the client is responsible for the **how** (the final *presentation and interaction*). This creates a clear separation of concerns.
+The LMUI protocol is designed to be flexible. The server is responsible for the **what** (_data_ and the _type_ of UI component), but the client is responsible for the **how** (the final _presentation and interaction_). This creates a clear separation of concerns.
 
 ```mermaid
 graph TD
@@ -99,21 +101,21 @@ The server sends a JSON object that can contain both a text response and an arra
 
 ```json
 [
-    {
-        "type": "text_input",
-        "id": "departure_city",
-        "label": "Departure City"
-    },
-    {
-        "type": "interactive_select",
-        "id": "travel_class",
-        "label": "Travel Class",
-        "options": [
-            { "text": "Economy", "value": "economy" },
-            { "text": "Business", "value": "business" },
-            { "text": "First Class", "value": "first" }
-        ]
-    }
+	{
+		"type": "text_input",
+		"id": "departure_city",
+		"label": "Departure City"
+	},
+	{
+		"type": "interactive_select",
+		"id": "travel_class",
+		"label": "Travel Class",
+		"options": [
+			{ "text": "Economy", "value": "economy" },
+			{ "text": "Business", "value": "business" },
+			{ "text": "First Class", "value": "first" }
+		]
+	}
 ]
 ```
 
@@ -158,6 +160,7 @@ The protocol is designed to be extensible. While this specification currently de
 -   **New Capabilities:** Unlocks new use cases for LLMs, such as configuration wizards, complex form filling, and interactive tutorials.
 
 ---
+
 ---
 
 ## Reference Implementation
@@ -176,16 +179,19 @@ This repository contains a reference implementation of the LMUI protocol, built 
 The reference implementation is located in the `/demo` directory. To run it locally:
 
 1.  **Navigate to the demo directory:**
+
     ```bash
     cd demo
     ```
 
 2.  **Install dependencies:**
+
     ```bash
     npm install
     ```
 
 3.  **Run the development server:**
+
     ```bash
     npm run dev
     ```
