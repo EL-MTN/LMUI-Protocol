@@ -1,14 +1,26 @@
 # The Language Model User Interface (LMUI) Protocol
 
-This document contains the technical specification for the **Language Model User Interface (LMUI) Protocol**.
+> *This document contains the specification for the **Language Model User Interface (LMUI) Protocol**, a standardized method for enabling rich, interactive user interfaces within conversational AI experiences.*
 
-## 1. Introduction
+## The Problem
 
-The LMUI protocol defines a simple, extensible contract between an *LLM server* and a *client application*. Instead of responding with only text, the LLM can also include a payload describing one or more UI components to be displayed to the user. This enables rich, interactive experiences directly within a conversational interface.
+Modern Language Models (LLMs) are incredibly powerful, but their primary mode of interaction is plain text. This leads to several limitations:
+
+-   **Ambiguity:** Free-form text input can be ambiguous, requiring multiple conversational turns to clarify user intent.
+-   **Inefficiency:** For tasks like filling out forms or making a selection from a list, typing is far less efficient than using graphical UI elements.
+-   **Limited Experience:** The user experience is confined to that of a command-line interface, which is not ideal for many applications.
+
+## The Solution
+
+The LMUI protocol addresses these issues by defining a simple, extensible contract that empowers the LLM to request information using UI components directly within the chat interface. Instead of only responding with text, the LLM can also send a structured payload describing one or more UI components to be rendered by the client.
+
+This enables richer, more efficient, and more intuitive conversational flows.
 
 ---
 
-## 2. Protocol Flow
+## Technical Specification
+
+### 1. Protocol Flow
 
 The interaction follows a clear, cyclical path, as illustrated below. This flow allows for a request-response cycle where the response can be an interactive form.
 
@@ -34,7 +46,7 @@ sequenceDiagram
 
 ---
 
-## 3. Architecture: Separation of Concerns
+### 2. Architecture: Separation of Concerns
 
 The LMUI protocol is designed to be flexible. The server is responsible for the **what** (*data* and the *type* of UI component), but the client is responsible for the **how** (the final *presentation and interaction*). This creates a clear separation of concerns.
 
@@ -72,11 +84,13 @@ This architecture ensures that the LLM can provide powerful interactive capabili
 
 ---
 
-## 4. Payloads and Components
+### 3. Payloads and Components
 
-### 4.1. Server-to-Client Payload
+> **&#8594; For a detailed breakdown of all supported component types, see the [Component Specification Document](COMPONENTS.md).**
 
-The server sends a JSON object that can contain both a text response and an array of UI components.
+#### 3.1. Server-to-Client Payload
+
+The server sends a JSON object that can contain both a text response and an array of `UIComponent` objects.
 
 -   `response_text` (string): The text to display to the user.
 -   `ui_components` (array): An array of `UIComponent` objects.
@@ -103,13 +117,13 @@ The server sends a JSON object that can contain both a text response and an arra
 ]
 ```
 
-### 4.2. Client-to-Server Payload
+#### 3.2. Client-to-Server Payload
 
 After the user interacts with the form and submits, the client sends a JSON object containing the results.
 
 -   `interaction`: An object containing:
     -   `type` (string): Should be `form_submission`.
-    -   `values` (object): A key-value map where keys are the `id` of each component and values are the user's input.
+    -   `values` (object): A key-value map where keys are the `id` of each component. The format of each value depends on the component's type (see the [Component Specification](COMPONENTS.md) for details).
 
 **Example:**
 
@@ -125,19 +139,18 @@ After the user interacts with the form and submits, the client sends a JSON obje
 }
 ```
 
-### 4.3. Component Extensibility
+#### 3.3. Component Extensibility
 
-The protocol is designed to be extensible. While this specification defines `interactive_select` and `text_input` components, the schema can easily be expanded to support a wide variety of elements:
+The protocol is designed to be extensible. While this specification currently defines components for text input, selection, sliders, and more, the schema can easily be expanded to support a wider variety of elements. Future versions could include:
 
--   Buttons
--   Date/Time Pickers
--   Sliders
--   Checkboxes and Radio Buttons
--   File Uploads
+-   **Date & Time Pickers:** For selecting specific dates, times, or ranges.
+-   **File Uploads:** To allow users to send files.
+-   **Standalone Buttons:** To trigger specific actions outside of a form submission.
+-   **Static Image:** To display a static image.
 
 ---
 
-## 5. Benefits
+### 4. Benefits
 
 -   **Richer User Experience:** Moves beyond plain text to create modern, graphical, and app-like experiences.
 -   **Reduced Ambiguity:** Selections from lists or forms provide structured, unambiguous data to the LLM.

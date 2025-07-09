@@ -2,16 +2,21 @@ body {
     font-family: sans-serif;
     margin: 0;
     background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     color: black;
 }
 
+#page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
 #chat-container {
-    width: 400px;
-    height: 600px;
+    width: 100%;
+    max-width: 800px; /* Increased max-width */
+    height: 80vh; /* Adjusted height to be viewport-relative */
     border: 1px solid #ccc;
     border-radius: 8px;
     display: flex;
@@ -91,13 +96,20 @@ body {
 }
 
 .interactive-select,
-.interactive-text-input {
+.interactive-text-input,
+.interactive-textarea {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     margin-top: 5px;
     width: calc(100% - 22px); /* Account for padding and border */
     color: black;
+    font-family: sans-serif;
+}
+
+.interactive-textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
 .interactive-form {
@@ -110,6 +122,41 @@ body {
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.interactive-group-label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.interactive-checkbox-option,
+.interactive-radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.interactive-slider-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.interactive-slider-output {
+    font-weight: bold;
+    text-align: center;
+}
+
+.interactive-markdown {
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.interactive-markdown h3 {
+    margin-top: 0;
 }
 
 .interactive-submit {
