@@ -87,11 +87,25 @@ body {
 	background-color: #0056b3;
 }
 
-.interactive-select {
-	padding: 10px;
-	border-radius: 5px;
-	border: 1px solid #ccc;
-	margin-top: 5px;
+.interactive-select,
+.interactive-text-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    width: calc(100% - 22px); /* Account for padding and border */
+}
+
+.interactive-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.interactive-form-element {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .interactive-submit {
